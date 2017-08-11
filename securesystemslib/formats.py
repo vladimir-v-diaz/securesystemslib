@@ -462,42 +462,6 @@ ROLEDB_SCHEMA = SCHEMA.Object(
   delegations = SCHEMA.Optional(DELEGATIONS_SCHEMA),
   partial_loaded = SCHEMA.Optional(BOOLEAN_SCHEMA))
 
-# Root role: indicates root keys and top-level roles.
-ROOT_SCHEMA = SCHEMA.Object(
-  object_name = 'ROOT_SCHEMA',
-  _type = SCHEMA.String('Root'),
-  version = METADATAVERSION_SCHEMA,
-  consistent_snapshot = BOOLEAN_SCHEMA,
-  compression_algorithms = COMPRESSIONS_SCHEMA,
-  expires = ISO8601_DATETIME_SCHEMA,
-  keys = KEYDICT_SCHEMA,
-  roles = ROLEDICT_SCHEMA)
-
-# Targets role: Indicates targets and delegates target paths to other roles.
-TARGETS_SCHEMA = SCHEMA.Object(
-  object_name = 'TARGETS_SCHEMA',
-  _type = SCHEMA.String('Targets'),
-  version = METADATAVERSION_SCHEMA,
-  expires = ISO8601_DATETIME_SCHEMA,
-  targets = FILEDICT_SCHEMA,
-  delegations = SCHEMA.Optional(DELEGATIONS_SCHEMA))
-
-# Snapshot role: indicates the latest versions of all metadata (except timestamp).
-SNAPSHOT_SCHEMA = SCHEMA.Object(
-  object_name = 'SNAPSHOT_SCHEMA',
-  _type = SCHEMA.String('Snapshot'),
-  version = METADATAVERSION_SCHEMA,
-  expires = ISO8601_DATETIME_SCHEMA,
-  meta = VERSIONDICT_SCHEMA)
-
-# Timestamp role: indicates the latest version of the snapshot file.
-TIMESTAMP_SCHEMA = SCHEMA.Object(
-  object_name = 'TIMESTAMP_SCHEMA',
-  _type = SCHEMA.String('Timestamp'),
-  version = METADATAVERSION_SCHEMA,
-  expires = ISO8601_DATETIME_SCHEMA,
-  meta = FILEDICT_SCHEMA)
-
 # project.cfg file: stores information about the project in a json dictionary
 PROJECT_CFG_SCHEMA = SCHEMA.Object(
     object_name = 'PROJECT_CFG_SCHEMA',
@@ -509,16 +473,6 @@ PROJECT_CFG_SCHEMA = SCHEMA.Object(
     public_keys = KEYDICT_SCHEMA,
     threshold = SCHEMA.Integer(lo = 0, hi = 2)
     )
-
-# A schema containing information a repository mirror may require,
-# such as a url, the path of the directory metadata files, etc.
-MIRROR_SCHEMA = SCHEMA.Object(
-  object_name = 'MIRROR_SCHEMA',
-  url_prefix = URL_SCHEMA,
-  metadata_path = RELPATH_SCHEMA,
-  targets_path = RELPATH_SCHEMA,
-  confined_target_dirs = RELPATHS_SCHEMA,
-  custom = SCHEMA.Optional(SCHEMA.Object()))
 
 # A dictionary of mirrors where the dict keys hold the mirror's name and
 # and the dict values the mirror's data (i.e., 'MIRROR_SCHEMA').
@@ -536,10 +490,6 @@ MIRRORLIST_SCHEMA = SCHEMA.Object(
   version = METADATAVERSION_SCHEMA,
   expires = ISO8601_DATETIME_SCHEMA,
   mirrors = SCHEMA.ListOf(MIRROR_SCHEMA))
-
-# Any of the role schemas (e.g., TIMESTAMP_SCHEMA, SNAPSHOT_SCHEMA, etc.)
-ANYROLE_SCHEMA = SCHEMA.OneOf([ROOT_SCHEMA, TARGETS_SCHEMA, SNAPSHOT_SCHEMA,
-                               TIMESTAMP_SCHEMA, MIRROR_SCHEMA])
 
 
 
