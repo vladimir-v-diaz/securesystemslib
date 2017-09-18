@@ -15,5 +15,3 @@ after_success:
   - cd -
 
 branches:
-  only:
-    - master
