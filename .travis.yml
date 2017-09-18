@@ -4,6 +4,14 @@ sudo: false
 cache: pip
 python: 3.6
 
+env:
+  - TOXENV=py27
+  - TOXENV=py33
+  - TOXENV=py34
+  - TOXENV=py35
+  - TOXENV=py36
+
+
 before_script:
   - pip install -U pip wheel tox
 
